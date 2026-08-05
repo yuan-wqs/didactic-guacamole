@@ -101,7 +101,7 @@ public class PetService extends Service {
         return new Notification.Builder(this, "pet_channel")
                 .setContentTitle("桌宠运行中")
                 .setContentText("我在这里陪着你")
-                .setSmallIcon(android.R.drawable.ic_menu_animal)
+                .setSmallIcon(android.R.drawable.ic_dialog_info)
                 .setOngoing(true)
                 .build();
     }
