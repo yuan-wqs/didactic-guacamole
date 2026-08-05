@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body{margin:0;padding:0;background:transparent;overflow:hidden;font-family:sans-serif}
+#cat{width:100%;height:100%;object-fit:contain;cursor:pointer}
+#bubble{display:none;position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:#fff;border:2px solid #FFB74D;border-radius:10px;padding:5px 10px;font-size:14px;color:#333;white-space:nowrap}
+</style>
+</head>
+<body>
+<img id="cat" src="cat.png">
+<div id="bubble">喵~ 我在呢</div>
+<script>
+var words=["喵喵喵~","主人你好呀^^","摸摸头~","我在陪着你呢"];
+var i=0;
+document.getElementById("cat").onclick=function(){
+var b=document.getElementById("bubble");
+b.textContent=words[i%words.length];
+i++;
+b.style.display="block";
+setTimeout(function(){b.style.display="none"},1500);
+};
+</script>
+</body>
+</html>
