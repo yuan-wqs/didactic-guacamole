@@ -72,7 +72,7 @@ public class PetService extends Service {
                     if (isDragging) {
                         webView.evaluateJavascript("showDragWord();", null);
                     } else {
-                        webView.evaluateJavascript("showClickWord();", null);
+                        webView.evaluateJavascript("handleTap(" + (event.getRawX() / getResources().getDisplayMetrics().density) + "," + (event.getRawY() / getResources().getDisplayMetrics().density) + ");", null);
                     }
                     return true;
             }
