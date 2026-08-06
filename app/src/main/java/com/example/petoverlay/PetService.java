@@ -27,7 +27,6 @@ public class PetService extends Service {
 
     private int lastRawX, lastRawY;
     private boolean isDragging = false;
-    private long lastDragBubbleTime = 0;
 
     @Override
     public void onCreate() {
@@ -79,11 +78,6 @@ public class PetService extends Service {
                         isDragging = true;
                     }
                     if (isDragging) {
-                        long now = System.currentTimeMillis();
-                        if (now - lastDragBubbleTime > 500) {
-                            lastDragBubbleTime = now;
-                            webView.evaluateJavascript("showDragWord();", null);
-                        }
                         params.x += deltaX;
                         params.y += deltaY;
                         if (params.x < -winW + dp(20)) params.x = -winW + dp(20);
@@ -96,7 +90,9 @@ public class PetService extends Service {
                     lastRawY = (int) event.getRawY();
                     return true;
                 case MotionEvent.ACTION_UP:
-                    if (!isDragging) {
+                    if (isDragging) {
+                        webView.evaluateJavascript("showDragWord();", null);
+                    } else {
                         float density = getResources().getDisplayMetrics().density;
                         webView.evaluateJavascript("handleTap(" + (event.getX() / density) + "," + (event.getY() / density) + ");", null);
                     }
