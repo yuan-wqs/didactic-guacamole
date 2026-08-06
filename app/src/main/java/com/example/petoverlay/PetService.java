@@ -69,11 +69,7 @@ public class PetService extends Service {
                     lastY = (int) event.getRawY();
                     return true;
                 case MotionEvent.ACTION_UP:
-                    if (isDragging) {
-                        webView.evaluateJavascript("showDragWord();", null);
-                    } else {
-                        webView.evaluateJavascript("handleTap(" + (event.getRawX() / getResources().getDisplayMetrics().density) + "," + (event.getRawY() / getResources().getDisplayMetrics().density) + ");", null);
-                    }
+                    webView.evaluateJavascript("handleTap(" + (event.getRawX() / getResources().getDisplayMetrics().density) + "," + (event.getRawY() / getResources().getDisplayMetrics().density) + ");", null);
                     return true;
             }
             return false;
