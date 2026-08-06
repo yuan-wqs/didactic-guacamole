@@ -45,6 +45,7 @@ public class PetService extends Service {
         settings.setDomStorageEnabled(true);
         settings.setAllowFileAccess(true);
 
+        webView.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         webView.loadUrl("file:///android_asset/pet.html");
         petView.addView(webView, new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
@@ -75,7 +76,7 @@ public class PetService extends Service {
 
         int type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         params = new WindowManager.LayoutParams(
-                dp(120), dp(150), type,
+                dp(90), dp(110), type,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
         params.gravity = Gravity.TOP | Gravity.START;
