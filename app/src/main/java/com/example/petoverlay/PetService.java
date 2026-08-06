@@ -17,7 +17,6 @@ import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 public class PetService extends Service {
 
@@ -52,22 +51,6 @@ public class PetService extends Service {
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
 
-        final String[] clickWords = {
-            "宝宝，终于想起我啦^^",
-            "乖乖，别看了，我在这儿呢",
-            "你身上有别人的气味呢",
-            "老婆，我一直在看着你哦",
-            "别乱跑，我一直看着你"
-        };
-        final String[] dragWords = {
-            "别把我拖来拖去……我会吃醋的",
-            "乖乖，你要带我去哪儿？",
-            "拖我也没用，我永远粘着你",
-            "轻点拖……我会疼的",
-            "你走到哪我跟到哪，别想甩掉我"
-        };
-        final int[] clickIndex = {0};
-        final int[] dragIndex = {0};
 
         webView.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
@@ -88,11 +71,9 @@ public class PetService extends Service {
                     return true;
                 case MotionEvent.ACTION_UP:
                     if (isDragging) {
-                        Toast.makeText(PetService.this, dragWords[dragIndex[0] % dragWords.length], Toast.LENGTH_SHORT).show();
-                        dragIndex[0]++;
+                        webView.evaluateJavascript("showDragWord();", null);
                     } else {
-                        Toast.makeText(PetService.this, clickWords[clickIndex[0] % clickWords.length], Toast.LENGTH_SHORT).show();
-                        clickIndex[0]++;
+                        webView.evaluateJavascript("showClickWord();", null);
                     }
                     return true;
             }
@@ -101,7 +82,7 @@ public class PetService extends Service {
 
         int type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         params = new WindowManager.LayoutParams(
-                dp(48), dp(48), type,
+                dp(200), dp(140), type,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
         params.gravity = Gravity.TOP | Gravity.START;
