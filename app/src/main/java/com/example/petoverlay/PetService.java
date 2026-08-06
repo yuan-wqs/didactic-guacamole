@@ -69,7 +69,11 @@ public class PetService extends Service {
                     windowManager.updateViewLayout(petView, params);
                     return true;
                 case MotionEvent.ACTION_UP:
-                    return isDragging;
+                    if (isDragging) {
+                        webView.evaluateJavascript("showDragWord();", null);
+                        return true;
+                    }
+                    return false;
             }
             return false;
         });
