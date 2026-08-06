@@ -76,7 +76,7 @@ public class PetService extends Service {
 
         int type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         params = new WindowManager.LayoutParams(
-                dp(90), dp(110), type,
+                dp(48), dp(48), type,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
         params.gravity = Gravity.TOP | Gravity.START;
