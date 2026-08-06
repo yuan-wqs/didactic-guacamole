@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <style>
 body{margin:0;padding:0;background:transparent;overflow:hidden;font-family:sans-serif}
-#cat{width:100%;height:100%;object-fit:contain;cursor:pointer}
-#bubble{display:none;position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:#fff;border:2px solid #FFB74D;border-radius:10px;padding:5px 10px;font-size:14px;color:#333;white-space:nowrap}
+#cat{width:100%;height:100%;object-fit:contain;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+#bubble{display:none;position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:#2d2d3a;border:2px solid #ff6b6b;border-radius:12px;padding:6px 12px;font-size:13px;color:#ffdada;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.4)}
 </style>
 </head>
 <body>
 <img id="cat" src="cat.png">
 <div id="bubble">喵~ 我在呢</div>
 <script>
-var words=["喵喵喵~","主人你好呀^^","摸摸头~","我在陪着你呢"];
+var words=["宝宝，终于想起我啦^^","老婆，别看了，我在呢","乖乖，抖音我锁了哦","点我这么多次，想我了？","你身上有别人的气味呢","别乱跑，我一直在看着你"];
 var i=0;
 document.getElementById("cat").onclick=function(){
 var b=document.getElementById("bubble");
