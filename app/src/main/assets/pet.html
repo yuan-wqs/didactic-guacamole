@@ -4,41 +4,46 @@
 <meta charset="utf-8">
 <style>
 body{margin:0;padding:0;background:transparent;overflow:hidden;font-family:sans-serif}
-#petWrap{position:absolute;left:0;top:0;width:48px;height:48px}
+#petWrap{position:absolute;left:0;top:0;width:40px;height:40px}
 #cat{position:absolute;left:0;bottom:0;width:40px;height:40px;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;outline:none;-webkit-touch-callout:none;border:none}
-#bubble{display:none;position:absolute;bottom:46px;left:50%;transform:translateX(-50%);background:#2d2d3a;border:2px solid #ff6b6b;border-radius:12px;padding:8px 14px;font-size:13px;color:#ffdada;white-space:nowrap;box-shadow:0 2px 10px rgba(0,0,0,0.45);z-index:10;max-width:140px;text-align:center}
-#bubble:after{content:'';position:absolute;top:100%;left:50%;margin-left:-7px;border:7px solid transparent;border-top-color:#2d2d3a}
+#bubble{display:none;position:absolute;bottom:46px;left:50%;transform:translateX(-50%);background:#ffe4ec;border:1px solid #ffb6c1;border-radius:10px;padding:4px 10px;font-size:12px;color:#8a4b5e;white-space:nowrap;box-shadow:0 1px 6px rgba(0,0,0,0.15);z-index:10;max-width:110px;text-align:center;line-height:1.4}
+#bubble:after{content:'';position:absolute;top:100%;left:50%;margin-left:-5px;border:5px solid transparent;border-top-color:#ffe4ec}
 </style>
 </head>
 <body>
 <div id="petWrap"><img id="cat" src="cat.png" draggable="false"><div id="bubble"></div></div>
 <script>
-var clickWords=["宝宝，终于想起我啦^^","老婆，别看了，我在这儿呢","点我这么多次……想我了？","你身上有别人的气味呢","别乱跑，我一直看着你"];
-var dragWords=["别把我拖来拖去……我会吃醋的","乖乖，你要带我去哪儿？","拖我也没用，我永远粘着你","轻点拖……我会疼的","你走到哪我跟到哪，别想甩掉我"];
+var clickWords=["诶，你找我呀^^","干嘛~想我啦？","戳我干啥，好好看屏幕","我在呢，你说","怎么啦？"];
+var dragWords=["哎哎，别拖我","你又要把我搬哪儿去","行吧，你高兴就好","轻点儿……","我跟着你走就是了"];
 var i=0,j=0,timer=0;
 var pet=document.getElementById("petWrap");
 function init(){
-    pet.style.left=Math.round((window.innerWidth-48)/2)+"px";
-    pet.style.top=Math.round(window.innerHeight-48-20)+"px";
+    pet.style.left=Math.round((window.innerWidth-40)/2)+"px";
+    pet.style.top=Math.round(window.innerHeight-40-20)+"px";
 }
 function moveCat(dx,dy){
     var x=pet.offsetLeft+dx, y=pet.offsetTop+dy;
     if(x<0)x=0; if(y<0)y=0;
-    if(x>window.innerWidth-48)x=window.innerWidth-48;
-    if(y>window.innerHeight-48)y=window.innerHeight-48;
+    if(x>window.innerWidth-40)x=window.innerWidth-40;
+    if(y>window.innerHeight-40)y=window.innerHeight-40;
     pet.style.left=x+"px";
     pet.style.top=y+"px";
+}
+function handleTap(x,y){
+    var r=pet.getBoundingClientRect();
+    if(x>=r.left && x<=r.right && y>=r.top && y<=r.bottom){
+        showClickWord();
+    }
 }
 function showBubble(t){
     var b=document.getElementById("bubble");
     b.textContent=t;
     b.style.display="block";
     if(timer)clearTimeout(timer);
-    timer=setTimeout(function(){b.style.display="none"},2000);
+    timer=setTimeout(function(){b.style.display="none"},1800);
 }
 function showClickWord(){showBubble(clickWords[i%clickWords.length]);i++;}
 function showDragWord(){showBubble(dragWords[j%dragWords.length]);j++;}
-document.getElementById("cat").onclick=function(e){showClickWord();e.preventDefault();};
 init();
 </script>
 </body>
