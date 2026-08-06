@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <style>
 body{margin:0;padding:0;background:transparent;overflow:hidden;font-family:sans-serif}
-#petWrap{position:absolute;left:0;top:0;width:40px;height:40px}
+#petWrap{position:absolute;left:0;bottom:0;width:40px;height:40px}
 #cat{position:absolute;left:0;bottom:0;width:40px;height:40px;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;outline:none;-webkit-touch-callout:none;border:none}
 #bubble{display:none;position:absolute;bottom:46px;left:50%;transform:translateX(-50%);background:#fff;border:2px solid #ffb6c1;border-radius:8px;padding:3px 8px;font-size:11px;color:#9a5a6a;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,0.12);z-index:10;max-width:90px;text-align:center;line-height:1.4}
 #bubble:after{content:'';position:absolute;top:100%;left:50%;margin-left:-5px;border:5px solid transparent;border-top-color:#fff}
@@ -13,8 +13,8 @@ body{margin:0;padding:0;background:transparent;overflow:hidden;font-family:sans-
 <body>
 <div id="petWrap"><img id="cat" src="cat.png" draggable="false"><div id="bubble"></div></div>
 <script>
-var clickWords=["嗯？找我呀^^","干嘛呀~","嘿嘿，你戳我","我在听呢，你说","怎么啦？","刚在想你呢"];
-var dragWords=["哎哎，慢点拖","你要带我去哪呀","好啦好啦，跟你走","轻点轻点","走就走嘛，别急"];
+var clickWords=["嗯？找我呀^^","(⑅˃◡˂⑅)","嘿嘿，你戳我","摸摸头","怎么啦？","刚在想你呢","不要戳我啦","想我了？","再戳就亲亲你","mua~我爱你呀"];
+var dragWords=["我到这里来啦！","想我了？","你要带我去哪？","mua~我爱你呀","走嘛走嘛，跟你走","轻点~"];
 var i=0,j=0,timer=0;
 var pet=document.getElementById("petWrap");
 function init(){

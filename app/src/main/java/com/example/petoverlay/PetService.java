@@ -27,6 +27,7 @@ public class PetService extends Service {
 
     private int lastRawX, lastRawY;
     private boolean isDragging = false;
+    private long lastDragBubbleTime = 0;
 
     @Override
     public void onCreate() {
@@ -78,12 +79,17 @@ public class PetService extends Service {
                         isDragging = true;
                     }
                     if (isDragging) {
+                        long now = System.currentTimeMillis();
+                        if (now - lastDragBubbleTime > 500) {
+                            lastDragBubbleTime = now;
+                            webView.evaluateJavascript("showDragWord();", null);
+                        }
                         params.x += deltaX;
                         params.y += deltaY;
-                        if (params.x < -winW + dp(40)) params.x = -winW + dp(40);
-                        if (params.y < 0) params.y = 0;
-                        if (params.x > getResources().getDisplayMetrics().widthPixels - dp(40)) params.x = getResources().getDisplayMetrics().widthPixels - dp(40);
-                        if (params.y > getResources().getDisplayMetrics().heightPixels - dp(40)) params.y = getResources().getDisplayMetrics().heightPixels - dp(40);
+                        if (params.x < -winW + dp(20)) params.x = -winW + dp(20);
+                        if (params.y < -winH + dp(20)) params.y = -winH + dp(20);
+                        if (params.x > screenW - dp(20)) params.x = screenW - dp(20);
+                        if (params.y > screenH - dp(20)) params.y = screenH - dp(20);
                         windowManager.updateViewLayout(petView, params);
                     }
                     lastRawX = (int) event.getRawX();
