@@ -63,11 +63,10 @@ public class PetService extends Service {
                     int deltaX = (int) event.getRawX() - lastX;
                     int deltaY = (int) event.getRawY() - lastY;
                     if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) isDragging = true;
-                    params.x += deltaX;
-                    params.y += deltaY;
+                    float density = getResources().getDisplayMetrics().density;
+                    webView.evaluateJavascript("moveCat(" + (deltaX / density) + "," + (deltaY / density) + ");", null);
                     lastX = (int) event.getRawX();
                     lastY = (int) event.getRawY();
-                    windowManager.updateViewLayout(petView, params);
                     return true;
                 case MotionEvent.ACTION_UP:
                     if (isDragging) {
@@ -82,12 +81,11 @@ public class PetService extends Service {
 
         int type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         params = new WindowManager.LayoutParams(
-                dp(200), dp(140), type,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT, type,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
         params.gravity = Gravity.TOP | Gravity.START;
-        params.x = dp(20);
-        params.y = dp(100);
         if (Settings.canDrawOverlays(this)) {
             windowManager.addView(petView, params);
         }
