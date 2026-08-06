@@ -25,7 +25,7 @@ public class PetService extends Service {
     private WebView webView;
     private WindowManager.LayoutParams params;
 
-    private int lastX, lastY;
+    private int lastRawX, lastRawY;
     private boolean isDragging = false;
 
     @Override
@@ -51,37 +51,54 @@ public class PetService extends Service {
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
 
+        int winW = dp(100);
+        int winH = dp(120);
+        int type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        params = new WindowManager.LayoutParams(
+                winW, winH, type,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT);
+        params.gravity = Gravity.TOP | Gravity.START;
+        int screenW = getResources().getDisplayMetrics().widthPixels;
+        int screenH = getResources().getDisplayMetrics().heightPixels;
+        params.x = (screenW - winW) / 2;
+        params.y = screenH - winH - dp(20);
 
         webView.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    lastX = (int) event.getRawX();
-                    lastY = (int) event.getRawY();
+                    lastRawX = (int) event.getRawX();
+                    lastRawY = (int) event.getRawY();
                     isDragging = false;
                     return true;
                 case MotionEvent.ACTION_MOVE:
-                    int deltaX = (int) event.getRawX() - lastX;
-                    int deltaY = (int) event.getRawY() - lastY;
-                    if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) isDragging = true;
-                    float density = getResources().getDisplayMetrics().density;
-                    webView.evaluateJavascript("moveCat(" + (deltaX / density) + "," + (deltaY / density) + ");", null);
-                    lastX = (int) event.getRawX();
-                    lastY = (int) event.getRawY();
+                    int deltaX = (int) event.getRawX() - lastRawX;
+                    int deltaY = (int) event.getRawY() - lastRawY;
+                    if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) {
+                        isDragging = true;
+                    }
+                    if (isDragging) {
+                        params.x += deltaX;
+                        params.y += deltaY;
+                        if (params.x < -winW + dp(40)) params.x = -winW + dp(40);
+                        if (params.y < 0) params.y = 0;
+                        if (params.x > getResources().getDisplayMetrics().widthPixels - dp(40)) params.x = getResources().getDisplayMetrics().widthPixels - dp(40);
+                        if (params.y > getResources().getDisplayMetrics().heightPixels - dp(40)) params.y = getResources().getDisplayMetrics().heightPixels - dp(40);
+                        windowManager.updateViewLayout(petView, params);
+                    }
+                    lastRawX = (int) event.getRawX();
+                    lastRawY = (int) event.getRawY();
                     return true;
                 case MotionEvent.ACTION_UP:
-                    webView.evaluateJavascript("handleTap(" + (event.getRawX() / getResources().getDisplayMetrics().density) + "," + (event.getRawY() / getResources().getDisplayMetrics().density) + ");", null);
+                    if (!isDragging) {
+                        float density = getResources().getDisplayMetrics().density;
+                        webView.evaluateJavascript("handleTap(" + (event.getX() / density) + "," + (event.getY() / density) + ");", null);
+                    }
                     return true;
             }
             return false;
         });
 
-        int type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT, type,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                PixelFormat.TRANSLUCENT);
-        params.gravity = Gravity.TOP | Gravity.START;
         if (Settings.canDrawOverlays(this)) {
             windowManager.addView(petView, params);
         }
