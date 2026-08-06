@@ -4,23 +4,32 @@
 <meta charset="utf-8">
 <style>
 body{margin:0;padding:0;background:transparent;overflow:hidden;font-family:sans-serif}
-#cat{width:100%;height:100%;object-fit:contain;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
-#bubble{display:none;position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:#2d2d3a;border:2px solid #ff6b6b;border-radius:12px;padding:6px 12px;font-size:13px;color:#ffdada;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.4)}
+#cat{width:100%;height:100%;object-fit:contain;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;outline:none;-webkit-touch-callout:none;border:none;filter:none}
+#bubble{display:none;position:absolute;top:-38px;left:50%;transform:translateX(-50%);background:#2d2d3a;border:2px solid #ff6b6b;border-radius:12px;padding:6px 14px;font-size:13px;color:#ffdada;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.4);z-index:10}
 </style>
 </head>
 <body>
-<img id="cat" src="cat.png">
+<img id="cat" src="cat.png" draggable="false">
 <div id="bubble">喵~ 我在呢</div>
 <script>
-var words=["宝宝，终于想起我啦^^","老婆，别看了，我在呢","乖乖，抖音我锁了哦","点我这么多次，想我了？","你身上有别人的气味呢","别乱跑，我一直在看着你"];
-var i=0;
-document.getElementById("cat").onclick=function(){
+var clickWords=["宝宝，终于想起我啦^^","老婆，别看了，我在这儿呢","点我这么多次……想我了？","你身上有别人的气味呢","别乱跑，我一直看着你"];
+var dragWords=["别把我拖来拖去……我会吃醋的","乖乖，你要带我去哪儿？","拖我也没用，我永远粘着你","轻点拖……我会疼的","你走到哪我跟到哪，别想甩掉我"];
+var i=0,j=0;
+function showBubble(t){
 var b=document.getElementById("bubble");
-b.textContent=words[i%words.length];
-i++;
+b.textContent=t;
 b.style.display="block";
-setTimeout(function(){b.style.display="none"},1500);
+setTimeout(function(){b.style.display="none"},1800);
+}
+document.getElementById("cat").onclick=function(e){
+showBubble(clickWords[i%clickWords.length]);
+i++;
+e.preventDefault();
 };
+function showDragWord(){
+showBubble(dragWords[j%dragWords.length]);
+j++;
+}
 </script>
 </body>
 </html>
